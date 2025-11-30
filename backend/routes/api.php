@@ -34,46 +34,48 @@ use App\Http\Controllers\Api\WebRTCSignalingController;
 use App\Http\Controllers\Api\DailyController;
 use Illuminate\Support\Facades\Route;
 
-// Rotas públicas
-Route::get('/noticias', [PublicController::class, 'noticias']);
-Route::get('/eventos', [PublicController::class, 'eventos']);
-Route::get('/hero-slides', [PublicController::class, 'heroSlides']);
-Route::get('/corpo-diretivo', [PublicController::class, 'corpoDiretivo']);
-Route::get('/mensagem-director', [PublicController::class, 'mensagemDirector']);
+// Agrupar todas as rotas com prefixo 'api' para funcionar no Docker
+Route::prefix('api')->group(function () {
+    // Rotas públicas
+    Route::get('/noticias', [PublicController::class, 'noticias']);
+    Route::get('/eventos', [PublicController::class, 'eventos']);
+    Route::get('/hero-slides', [PublicController::class, 'heroSlides']);
+    Route::get('/corpo-diretivo', [PublicController::class, 'corpoDiretivo']);
+    Route::get('/mensagem-director', [PublicController::class, 'mensagemDirector']);
 
-// Rotas públicas para agendamento
-Route::get('/especialidades', [PublicController::class, 'especialidades']);
-Route::get('/medicos', [ApiMedicoController::class, 'index']);
-Route::get('/medico-disponibilidade', [MedicoDisponibilidadeController::class, 'disponibilidade']);
-Route::get('/especialidade-disponibilidade', [EspecialidadeDisponibilidadeController::class, 'disponibilidade']);
-Route::post('/buscar-paciente', [PublicAgendamentoController::class, 'buscarPaciente']);
-Route::post('/criar-paciente', [PublicAgendamentoController::class, 'criarPaciente']);
-Route::post('/verificar-consulta-existente', [PublicAgendamentoController::class, 'verificarConsultaExistente']);
-Route::post('/agendar', [PublicAgendamentoController::class, 'agendar']);
+    // Rotas públicas para agendamento
+    Route::get('/especialidades', [PublicController::class, 'especialidades']);
+    Route::get('/medicos', [ApiMedicoController::class, 'index']);
+    Route::get('/medico-disponibilidade', [MedicoDisponibilidadeController::class, 'disponibilidade']);
+    Route::get('/especialidade-disponibilidade', [EspecialidadeDisponibilidadeController::class, 'disponibilidade']);
+    Route::post('/buscar-paciente', [PublicAgendamentoController::class, 'buscarPaciente']);
+    Route::post('/criar-paciente', [PublicAgendamentoController::class, 'criarPaciente']);
+    Route::post('/verificar-consulta-existente', [PublicAgendamentoController::class, 'verificarConsultaExistente']);
+    Route::post('/agendar', [PublicAgendamentoController::class, 'agendar']);
 
-// Rotas públicas para consultas online
-Route::get('/consulta-online/{id}', [ConsultaOnlineController::class, 'obterLinkConsulta']);
-Route::post('/consulta-online/buscar', [ConsultaOnlineController::class, 'buscarPorNIF']);
+    // Rotas públicas para consultas online
+    Route::get('/consulta-online/{id}', [ConsultaOnlineController::class, 'obterLinkConsulta']);
+    Route::post('/consulta-online/buscar', [ConsultaOnlineController::class, 'buscarPorNIF']);
 
-// Daily.co - Token para paciente (público)
-Route::get('/daily/{consultaId}/token', [DailyController::class, 'getPatientToken']);
+    // Daily.co - Token para paciente (público)
+    Route::get('/daily/{consultaId}/token', [DailyController::class, 'getPatientToken']);
 
-// Documentos públicos (validação por NIF)
-Route::get('/consultas/{id}/documentos', [PublicController::class, 'verificarDocumentos']);
-Route::get('/consultas/{id}/prescricao', [DocumentoMedicoController::class, 'gerarPrescricaoPublica']);
-Route::get('/consultas/{id}/requisicao-exames', [DocumentoMedicoController::class, 'gerarRequisicaoExamePorConsultaPublica']);
-Route::get('/consultas/{id}/recibo', [ReciboConsultaController::class, 'gerarReciboPublico']);
+    // Documentos públicos (validação por NIF)
+    Route::get('/consultas/{id}/documentos', [PublicController::class, 'verificarDocumentos']);
+    Route::get('/consultas/{id}/prescricao', [DocumentoMedicoController::class, 'gerarPrescricaoPublica']);
+    Route::get('/consultas/{id}/requisicao-exames', [DocumentoMedicoController::class, 'gerarRequisicaoExamePorConsultaPublica']);
+    Route::get('/consultas/{id}/recibo', [ReciboConsultaController::class, 'gerarReciboPublico']);
 
-// WebRTC Signaling (público para paciente)
-Route::get('webrtc/{roomId}/oferta', [WebRTCSignalingController::class, 'getOffer']);
-Route::post('webrtc/{roomId}/resposta', [WebRTCSignalingController::class, 'sendAnswer']);
-Route::post('webrtc/{roomId}/candidato', [WebRTCSignalingController::class, 'sendCandidate']);
+    // WebRTC Signaling (público para paciente)
+    Route::get('webrtc/{roomId}/oferta', [WebRTCSignalingController::class, 'getOffer']);
+    Route::post('webrtc/{roomId}/resposta', [WebRTCSignalingController::class, 'sendAnswer']);
+    Route::post('webrtc/{roomId}/candidato', [WebRTCSignalingController::class, 'sendCandidate']);
 
-Route::post('/login', [AuthController::class, 'login']);
-Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
-Route::post('/reset-password', [AuthController::class, 'resetPassword']);
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
+    Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 
-Route::middleware('auth:sanctum')->group(function () {
+    Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'me']);
     Route::post('/change-password', [AuthController::class, 'changePassword']);
@@ -119,10 +121,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/relatorios/exames-solicitados', [RelatorioController::class, 'examesSolicitados']);
     Route::get('/relatorios/estatistico-geral', [RelatorioController::class, 'estatisticoGeral']);
     Route::get('/relatorios/produtividade-medica', [RelatorioController::class, 'produtividadeMedica']);
-});
+    });
 
-// Rotas administrativas - requerem autenticação e permissão de admin
-Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function () {
+    // Rotas administrativas - requerem autenticação e permissão de admin
+    Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function () {
     // Dashboard
     Route::get('/dashboard', [AdminDashboardController::class, 'index']);
     
@@ -177,5 +179,6 @@ Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function ()
     
     // Usuários
     Route::apiResource('users', UserController::class);
+    });
 });
 

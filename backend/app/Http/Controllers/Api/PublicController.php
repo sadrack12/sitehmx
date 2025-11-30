@@ -141,11 +141,15 @@ class PublicController extends Controller
             }
 
             return response()->json([
+                'validado' => true,
                 'documentos' => $documentos,
                 'consulta' => [
                     'id' => $consulta->id,
                     'data_consulta' => $consulta->data_consulta,
                     'status' => $consulta->status,
+                    'consulta_online' => $consulta->consulta_online,
+                    'link_videoconferencia' => $consulta->link_videoconferencia,
+                    'sala_videoconferencia' => $consulta->sala_videoconferencia,
                 ],
             ]);
         } catch (\Exception $e) {

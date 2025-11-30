@@ -1,0 +1,37 @@
+# ============================================
+# COMANDOS PARA EXECUTAR UM POR VEZ
+# ============================================
+
+# 1. Verificar se está no diretório correto
+cd ~/public_html/api
+pwd
+
+# 2. Adicionar remote (se ainda não foi feito)
+git remote add origin https://github.com/sadrack12/sitehmx.git
+# OU se já existe:
+# git remote set-url origin https://github.com/sadrack12/sitehmx.git
+
+# 3. Fazer fetch
+git fetch origin
+
+# 4. Fazer checkout (tentar primeiro)
+git checkout -b main origin/main
+
+# SE DER ERRO no checkout, usar merge:
+# git pull origin main --allow-unrelated-histories
+
+# 5. Instalar dependências
+composer install --no-dev --optimize-autoloader
+
+# 6. Limpar cache
+php artisan route:clear
+php artisan config:clear
+php artisan cache:clear
+
+# 7. Recriar cache
+php artisan route:cache
+php artisan config:cache
+
+# 8. Verificar rotas
+php artisan route:list | grep "consulta-online/buscar"
+

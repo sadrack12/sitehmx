@@ -1,132 +1,123 @@
-# 🛠️ Scripts de Deploy para cPanel
+# 📋 Scripts Disponíveis
 
-Scripts auxiliares para facilitar o processo de deploy no cPanel.
+## 🚀 Scripts de Deploy
 
-## 📋 Scripts Disponíveis
+### `deploy-backend.sh`
+**Deploy do backend no servidor via Git**
 
-### 1. `prepare-backend.sh`
-
-Prepara o backend (Laravel) para deploy, instalando dependências e configurando o ambiente.
-
-**Uso:**
 ```bash
-./scripts/prepare-backend.sh
+./scripts/deploy-backend.sh
 ```
 
-**O que faz:**
-- Instala dependências de produção com Composer
-- Cria `.env` se não existir
-- Gera `APP_KEY` se necessário
-- Limpa caches antigos
-
-**Nota:** Não faz upload. Você precisa fazer upload manualmente depois.
+Mostra instruções para fazer deploy do backend no servidor.
 
 ---
 
-### 2. `prepare-frontend.sh`
+### `deploy-frontend.sh`
+**Build e preparar frontend para deploy**
 
-Prepara o frontend (Next.js) para deploy, oferecendo duas opções.
-
-**Uso:**
 ```bash
-# Build estático (mais simples, não precisa Node.js no servidor)
-./scripts/prepare-frontend.sh static
-
-# Com Node.js (mais flexível, precisa Node.js no servidor)
-./scripts/prepare-frontend.sh nodejs
+./scripts/deploy-frontend.sh
 ```
 
-**O que faz:**
-- Instala dependências
-- Cria `.env.local` com URL da API
+- Limpa builds antigos
 - Faz build do Next.js
-- Orienta sobre próximos passos
+- Prepara para upload
 
 ---
 
-### 3. `create-htaccess.sh`
+### `deploy-completo.sh`
+**Deploy completo (backend + frontend)**
 
-Cria o arquivo `.htaccess` necessário para o Laravel funcionar no cPanel.
-
-**Uso:**
 ```bash
-./scripts/create-htaccess.sh
+./scripts/deploy-completo.sh
 ```
 
-**O que faz:**
-- Cria arquivo `.htaccess` em `backend/public/.htaccess`
-- Configura rewrite rules para Laravel
+- Faz build do frontend
+- Mostra instruções para deploy completo
 
 ---
 
-## 🔧 Pré-requisitos
+## 🔧 Scripts de Git
 
-Antes de usar os scripts, certifique-se de ter:
+### `git-commit.sh`
+**Commit e push rápido**
 
-- **Backend:**
-  - PHP 8.1+ instalado
-  - Composer instalado
-
-- **Frontend:**
-  - Node.js 18+ instalado
-  - npm instalado
-
-- **Sistema:**
-  - Bash shell (Linux, macOS, ou Git Bash no Windows)
-
----
-
-## 📝 Exemplo de Uso Completo
-
-### Preparar Backend:
 ```bash
-cd /caminho/para/sitehmx
-./scripts/prepare-backend.sh
+./scripts/git-commit.sh "mensagem do commit"
 ```
 
-### Preparar Frontend (estático):
+Exemplo:
 ```bash
-./scripts/prepare-frontend.sh static
-# Quando solicitado, digite a URL da API: https://seudominio.com/api
-```
-
-### Criar .htaccess:
-```bash
-./scripts/create-htaccess.sh
+./scripts/git-commit.sh "Corrigir rotas API"
 ```
 
 ---
 
-## ⚠️ Importante
+## 🔍 Scripts de Verificação
 
-1. **Não faça upload do `.env`** para o servidor
-   - O `.env` deve ser criado manualmente no servidor com as configurações de produção
+### `verificar-rotas.sh`
+**Verificar rotas no código**
 
-2. **Backup sempre**
-   - Faça backup antes de qualquer deploy
+```bash
+./scripts/verificar-rotas.sh
+```
 
-3. **Teste localmente**
-   - Teste o build localmente antes de fazer upload
-
----
-
-## 🆘 Problemas?
-
-Se os scripts não funcionarem:
-
-1. Verifique se têm permissão de execução:
-   ```bash
-   chmod +x scripts/*.sh
-   ```
-
-2. Verifique se está na raiz do projeto
-
-3. Execute manualmente os comandos que o script tenta executar
+Verifica:
+- Rotas com `/public/` no backend
+- Duplicação `/api/api/` no frontend
+- Rotas `/api/exames` incorretas
 
 ---
 
-## 📚 Documentação Relacionada
+### `status-projeto.sh`
+**Status geral do projeto**
 
-- [DEPLOY_CPANEL.md](../DEPLOY_CPANEL.md) - Guia completo de deploy
-- [DEPLOY_CHECKLIST.md](../DEPLOY_CHECKLIST.md) - Checklist de deploy
+```bash
+./scripts/status-projeto.sh
+```
 
+Mostra:
+- Status do Git
+- Status do backend
+- Status do frontend
+
+---
+
+## 🧹 Scripts de Limpeza
+
+### `limpar-cache.sh`
+**Limpar cache do Laravel**
+
+```bash
+./scripts/limpar-cache.sh
+```
+
+Mostra instruções para limpar cache no servidor.
+
+---
+
+## 📝 Exemplos de Uso
+
+### Workflow Completo:
+
+```bash
+# 1. Verificar status
+./scripts/status-projeto.sh
+
+# 2. Verificar rotas
+./scripts/verificar-rotas.sh
+
+# 3. Fazer build do frontend
+./scripts/deploy-frontend.sh
+
+# 4. Fazer commit
+./scripts/git-commit.sh "Atualizar build do frontend"
+
+# 5. Deploy no servidor (seguir instruções)
+./scripts/deploy-backend.sh
+```
+
+---
+
+**Todos os scripts estão prontos para uso!** 🚀

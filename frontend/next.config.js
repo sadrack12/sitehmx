@@ -10,8 +10,9 @@ const nextConfig = {
     unoptimized: true,
   },
   env: {
-    // Para produção, usar a API do servidor
-    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'https://clamatec.com/api',
+    // Para desenvolvimento Docker, usar localhost:8001
+    // Para produção, definir NEXT_PUBLIC_API_URL no .env.local ou build
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001/api',
   },
   webpack: (config, { isServer }) => {
     // Configuração para módulos ESM como @daily-co/daily-js

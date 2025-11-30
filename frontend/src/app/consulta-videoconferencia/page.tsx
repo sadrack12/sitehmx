@@ -14,6 +14,9 @@ export default function VideoconferenciaPacientePage() {
   const [consultaData, setConsultaData] = useState<any>(null)
   const [showVideo, setShowVideo] = useState(false)
   const [consultaId, setConsultaId] = useState<number | null>(null)
+  const [roomUrl, setRoomUrl] = useState<string>('')
+  const [token, setToken] = useState<string>('')
+  const [loadingToken, setLoadingToken] = useState(false)
 
   useEffect(() => {
     // Ler ID da URL no cliente (para build estático)
@@ -90,7 +93,7 @@ export default function VideoconferenciaPacientePage() {
     setError(null)
 
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://clamatec.com/api'
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001/api'
       const response = await fetch(`${apiUrl}/consultas/${idToUse}/documentos?nif=${encodeURIComponent(nifToUse)}`)
 
       if (!response.ok) {
@@ -110,8 +113,35 @@ export default function VideoconferenciaPacientePage() {
       if (data.validado) {
         setNif(nifToUse)
         setConsultaData(data.consulta)
-        setShowVideo(true)
-        setLoading(false)
+        
+        // Buscar token do Daily.co para o paciente
+        if (data.consulta?.consulta_online && data.consulta?.id) {
+          setLoadingToken(true)
+          try {
+            const tokenResponse = await fetch(
+              `${apiUrl}/daily/${data.consulta.id}/token?nif=${encodeURIComponent(nifToUse)}`
+            )
+            
+            if (tokenResponse.ok) {
+              const tokenData = await tokenResponse.json()
+              setRoomUrl(tokenData.room?.url || '')
+              setToken(tokenData.token || '')
+              setShowVideo(true)
+            } else {
+              const errorData = await tokenResponse.json().catch(() => ({}))
+              setError(errorData.message || 'Erro ao obter acesso à videoconferência')
+            }
+          } catch (tokenError) {
+            console.error('Erro ao buscar token:', tokenError)
+            setError('Erro ao conectar com a videoconferência. Tente novamente.')
+          } finally {
+            setLoadingToken(false)
+            setLoading(false)
+          }
+        } else {
+          setError('Esta consulta não é uma consulta online')
+          setLoading(false)
+        }
       } else {
         setError('NIF incorreto ou consulta não encontrada')
         setLoading(false)
@@ -186,18 +216,31 @@ export default function VideoconferenciaPacientePage() {
     )
   }
 
-  if (showVideo && consultaId && consultaData) {
+  if (showVideo && consultaId && consultaData && roomUrl && token) {
     return (
       <div className="min-h-screen bg-gray-900">
         <DailyVideoModalPaciente
           consultaId={consultaId}
-          consulta={consultaData}
+          nomeUsuario={consultaData.paciente?.nome || 'Paciente'}
+          roomUrl={roomUrl}
+          token={token}
           isOpen={showVideo}
           onClose={() => {
             setShowVideo(false)
             router.push('/')
           }}
         />
+      </div>
+    )
+  }
+  
+  if (loadingToken) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <Loader2 className="w-12 h-12 animate-spin mx-auto mb-4 text-green-600" />
+          <p className="text-gray-600">Preparando videoconferência...</p>
+        </div>
       </div>
     )
   }

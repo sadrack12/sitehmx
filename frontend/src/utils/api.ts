@@ -15,8 +15,8 @@ const API_URL = (() => {
     return 'https://clamatec.com/api'
   }
   
-  // Server-side: localhost para desenvolvimento
-  return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api'
+  // Server-side: localhost para desenvolvimento (Docker usa porta 8001)
+  return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001/api'
 })()
 
 export const api = {

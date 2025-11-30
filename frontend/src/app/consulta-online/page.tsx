@@ -28,7 +28,7 @@ export default function ConsultaOnlinePage() {
 
     setLoading(true)
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://clamatec.com/api'
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001/api'
       const response = await fetch(`${apiUrl}/consulta-online/buscar`, {
         method: 'POST',
         headers: {
@@ -64,7 +64,7 @@ export default function ConsultaOnlinePage() {
     setLoadingDocumentos(prev => ({ ...prev, [consultaId]: true }))
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL || 'https://clamatec.com/api'}/consultas/${consultaId}/documentos?nif=${encodeURIComponent(nif)}`
+        `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001/api'}/consultas/${consultaId}/documentos?nif=${encodeURIComponent(nif)}`
       )
 
       if (response.ok) {
@@ -90,11 +90,11 @@ export default function ConsultaOnlinePage() {
       fullUrl = url
     } else if (url.startsWith('/api/')) {
       // URL já tem /api/, usar diretamente com o domínio
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://clamatec.com/api'
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001/api'
       const baseUrl = apiUrl.replace('/api', '') // Remove /api para não duplicar
       fullUrl = `${baseUrl}${url}`
     } else {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://clamatec.com/api'
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001/api'
       fullUrl = `${apiUrl}${url}`
     }
     window.open(fullUrl, '_blank')

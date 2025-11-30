@@ -67,10 +67,8 @@ services:
     ports:
       - "0.0.0.0:3000:3000"
     environment:
-      # Configure NEXT_PUBLIC_API_URL no arquivo frontend/.env.local
-      # O script setup-ip.sh pode ajudar a configurar automaticamente
-      # Se não existir .env.local, usa localhost como padrão
       - HOSTNAME=0.0.0.0
+      - NEXT_PUBLIC_API_URL=http://localhost:8001/api
     env_file:
       - ./frontend/.env.local
     depends_on:

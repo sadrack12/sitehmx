@@ -1,0 +1,62 @@
+# ============================================
+# COMANDOS PARA COPIAR E COLAR NO SERVIDOR
+# ============================================
+
+# 1. CONECTAR AO SERVIDOR
+# -----------------------
+ssh ebvutbmy@50.6.35.67
+
+# 2. IR PARA O DIRETÓRIO DO BACKEND
+# ----------------------------------
+cd ~/public_html/api
+
+# 3. VERIFICAR SE ESTÁ NO LUGAR CERTO
+# ------------------------------------
+pwd
+# Deve mostrar: /home1/ebvutbmy/public_html/api
+
+ls -la composer.json
+# Deve mostrar o arquivo composer.json
+
+# 4. LIMPAR CACHE
+# ---------------
+php artisan route:clear
+php artisan config:clear
+php artisan cache:clear
+php artisan view:clear
+
+# 5. RECRIAR CACHE
+# ----------------
+php artisan route:cache
+php artisan config:cache
+
+# 6. VERIFICAR ROTAS
+# ------------------
+php artisan route:list | grep "consulta-online/buscar"
+php artisan route:list | grep "noticias"
+php artisan route:list | grep "eventos"
+
+# 7. VERIFICAR SE HÁ ROTAS COM /public/ (NÃO DEVE TER)
+# -----------------------------------------------------
+php artisan route:list | grep "/public/"
+
+# 8. VERIFICAR ARQUIVOS CORRIGIDOS
+# ---------------------------------
+cat app/Http/Controllers/Api/PublicController.php | grep "url.*api/consultas"
+# Deve mostrar URLs sem /public/
+
+cat app/Providers/AppServiceProvider.php | grep "Route::prefix"
+# NÃO deve mostrar Route::prefix('api')
+
+# 9. VERIFICAR PERMISSÕES
+# -----------------------
+ls -la .htaccess
+ls -la app/Http/Controllers/Api/PublicController.php
+ls -la app/Providers/AppServiceProvider.php
+
+# 10. SE PRECISAR CORRIGIR PERMISSÕES
+# ------------------------------------
+chmod 644 .htaccess
+chmod 644 app/Http/Controllers/Api/PublicController.php
+chmod 644 app/Providers/AppServiceProvider.php
+
