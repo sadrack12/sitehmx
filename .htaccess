@@ -1,0 +1,35 @@
+RewriteEngine On
+RewriteBase /
+
+# REGRA ESPECÍFICA PARA LOGIN (PRIMEIRA - MÁXIMA PRIORIDADE)
+RewriteRule ^gestao/login/?$ /gestao/login.html [L,R=301]
+
+# Não tocar na API
+RewriteCond %{REQUEST_URI} ^/api/
+RewriteRule ^ - [L]
+
+# Se arquivo existe, servir diretamente
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^ - [L]
+
+# Se diretório existe, servir diretamente
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Não tocar em assets do Next.js
+RewriteCond %{REQUEST_URI} ^/_next/
+RewriteRule ^ - [L]
+
+# Tentar adicionar .html para outras rotas
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !^/api/
+RewriteCond %{REQUEST_URI} !^/_next/
+RewriteCond %{REQUEST_URI} !^/gestao/login
+RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI}.html -f
+RewriteRule ^(.*)$ $1.html [L]
+
+# Fallback para index.html
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.html [L]
