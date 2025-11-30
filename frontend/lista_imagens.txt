@@ -1,0 +1,41 @@
+LISTA DE IMAGENS QUE DEVEM ESTAR EM public_html/images/
+
+Total: 21 imagens
+
+IMAGENS OBRIGATÓRIAS:
+- logo.jpeg
+- governo.png
+- director-geral.jpeg
+- director-clinico.jpeg
+- director-administrativo.jpeg
+- directora-enfermagem.jpeg
+- director-cientifico.jpeg
+
+IMAGENS DA GALERIA:
+- 481337255_122150224724343844_4470774594386885664_n.jpg
+- 553280666_122180093228343844_698813316423067076_n.jpg
+- 555962522_122180552600343844_8952583627148606697_n.jpg
+- 556115116_122180553740343844_285671433319500312_n.jpg
+- 560106632_122182100900343844_2963057808023442406_n.jpg
+- 561520774_122182101518343844_1723576736119237803_n.jpg
+- 573508682_122184405284343844_8911212578133461837_n.jpg
+- 577400924_122184958010343844_1454223572060094970_n.jpg
+- 577535754_122184719738343844_5257761701614180172_n.jpg
+- 578003869_122184957962343844_5690754979362345545_n.jpg
+- 578006101_122184957872343844_7574823498328585283_n.jpg
+- 578488802_122184915152343844_2298168834801400220_n.jpg
+- 579450528_122184957920343844_677704214275117552_n.jpg
+
+INSTRUÇÕES PARA UPLOAD NO cPanel:
+
+1. No File Manager do cPanel, vá até public_html
+2. Certifique-se de que existe uma pasta chamada "images"
+3. Faça upload de TODAS as 21 imagens acima para public_html/images/
+4. Verifique permissões:
+   - Pasta images: 755
+   - Arquivos: 644
+5. Teste acessando: https://seudominio.com/images/logo.jpeg
+
+Se a imagem aparecer ao acessar diretamente, o problema está no código.
+Se não aparecer, o problema está no upload ou permissões.
+

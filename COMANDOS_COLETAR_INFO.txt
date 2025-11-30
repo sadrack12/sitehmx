@@ -1,0 +1,35 @@
+EXECUTE ESTES COMANDOS E ME ENVIE OS RESULTADOS:
+
+cd ~/public_html/api
+
+echo "========== INFORMAÇÃO 1: Rotas =========="
+php artisan route:list | grep "public/noticias"
+echo ""
+
+echo "========== INFORMAÇÃO 2: .htaccess em public/ =========="
+cat public/.htaccess
+echo ""
+
+echo "========== INFORMAÇÃO 3: .htaccess na raiz? =========="
+ls -la .htaccess 2>/dev/null && cat .htaccess || echo "Não existe"
+echo ""
+
+echo "========== INFORMAÇÃO 4: Estrutura =========="
+pwd
+ls -la public/ | head -5
+echo ""
+
+echo "========== INFORMAÇÃO 5: Testar rota =========="
+php artisan route:match GET /public/noticias 2>&1
+echo ""
+
+echo "========== INFORMAÇÃO 6: Logs =========="
+tail -20 storage/logs/laravel.log | grep -i "404\|route\|not found" | tail -5 || echo "Sem erros recentes"
+echo ""
+
+echo "========== INFORMAÇÃO 7: APP_URL =========="
+grep APP_URL .env
+echo ""
+
+echo "========== FIM =========="
+

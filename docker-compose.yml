@@ -1,0 +1,108 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: sitehmx_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: sitehmx_db
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_USER: sitehmx_user
+      MYSQL_PASSWORD: sitehmx_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - sitehmx_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "sitehmx_user", "-psitehmx_password"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: sitehmx_backend
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+      - ./backend:/var/www/html
+    ports:
+      - "0.0.0.0:8001:8000"
+    expose:
+      - "8000"
+    environment:
+      - DB_CONNECTION=mysql
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_DATABASE=sitehmx_db
+      - DB_USERNAME=sitehmx_user
+      - DB_PASSWORD=sitehmx_password
+      - APP_ENV=local
+      - APP_DEBUG=true
+      - DAILY_API_KEY=0d9817d34e865d1528da60554b77b7acdaf430a87f14800d41c828e48e2cea2c
+      - DAILY_DOMAIN=clamatec.daily.co
+    env_file:
+      - ./backend/.env
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - sitehmx_network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: sitehmx_frontend
+    restart: unless-stopped
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    ports:
+      - "0.0.0.0:3000:3000"
+    environment:
+      # Configure NEXT_PUBLIC_API_URL no arquivo frontend/.env.local
+      # O script setup-ip.sh pode ajudar a configurar automaticamente
+      # Se não existir .env.local, usa localhost como padrão
+      - HOSTNAME=0.0.0.0
+    env_file:
+      - ./frontend/.env.local
+    depends_on:
+      - backend
+    networks:
+      - sitehmx_network
+    expose:
+      - "3000"
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: sitehmx_nginx
+    restart: unless-stopped
+    ports:
+      - "0.0.0.0:80:80"
+      - "0.0.0.0:443:443"
+    volumes:
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - sitehmx_network
+
+volumes:
+  mysql_data:
+
+networks:
+  sitehmx_network:
+    driver: bridge
+

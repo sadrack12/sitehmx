@@ -1,0 +1,44 @@
+COMANDOS DE DIAGNÓSTICO - EXECUTE E ME ENVIE OS RESULTADOS:
+
+# 1. Verificar estrutura e onde estamos
+cd ~/public_html/api
+pwd
+echo ""
+echo "=== Estrutura de diretórios ==="
+ls -la | head -15
+echo ""
+
+# 2. Verificar rotas registradas
+echo "=== Rotas públicas registradas ==="
+php artisan route:list | grep "public/" | head -10
+echo ""
+
+# 3. Verificar .htaccess
+echo "=== .htaccess em public/ ==="
+cat public/.htaccess
+echo ""
+
+# 4. Verificar se há .htaccess em api/
+echo "=== .htaccess na raiz (api/) ==="
+ls -la .htaccess 2>/dev/null && cat .htaccess || echo "Não existe .htaccess na raiz"
+echo ""
+
+# 5. Verificar APP_URL
+echo "=== APP_URL configurado ==="
+grep APP_URL .env
+echo ""
+
+# 6. Testar rota diretamente via tinker
+echo "=== Testando rota via tinker ==="
+php artisan tinker --execute="echo \Route::getRoutes()->match(\Request::create('/public/noticias', 'GET'))->uri();"
+echo ""
+
+# 7. Ver logs recentes
+echo "=== Últimos erros no log ==="
+tail -30 storage/logs/laravel.log | grep -i "404\|route\|not found" | tail -10
+echo ""
+
+# 8. Verificar estrutura de public/
+echo "=== Conteúdo de public/ ==="
+ls -la public/ | head -10
+

@@ -1,0 +1,27 @@
+COMANDOS PARA VER O HOST/DOMÍNIO NO TERMINAL:
+
+# Método 1: Ver domínio principal do usuário cPanel
+cat ~/.cpanel/datastore/_main_domain
+
+# Método 2: Ver hostname completo
+hostname -f
+
+# Método 3: Ver hostname simples
+hostname
+
+# Método 4: Ver variável HOSTNAME
+echo $HOSTNAME
+
+# Método 5: Ver configurações de domínio do usuário
+cat ~/etc/userdatadomains 2>/dev/null | grep -v "^#" | head -5
+
+# Método 6: Ver todos de uma vez
+echo "=== Domínio Principal ==="
+cat ~/.cpanel/datastore/_main_domain 2>/dev/null || echo "Não encontrado"
+echo ""
+echo "=== Hostname ==="
+hostname -f
+echo ""
+echo "=== HOSTNAME ==="
+echo $HOSTNAME
+

@@ -1,0 +1,15 @@
+<IfModule mod_rewrite.c>
+    Options +FollowSymLinks -Indexes
+    RewriteEngine On
+    
+    # Remover /api/ do caminho antes de redirecionar para public/
+    # Se a URL começa com /api/, redirecionar para public/ sem o /api/
+    RewriteCond %{REQUEST_URI} ^/api/(.*)$
+    RewriteRule ^api/(.*)$ public/$1 [L]
+    
+    # Para outras requisições que não começam com /api/, também redirecionar para public/
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+

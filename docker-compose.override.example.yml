@@ -1,0 +1,12 @@
+# Arquivo de exemplo para configuração de acesso via IP
+# Copie este arquivo para docker-compose.override.yml e ajuste o IP conforme necessário
+
+version: '3.8'
+
+services:
+  frontend:
+    environment:
+      # Substitua SEU_IP_AQUI pelo IP do seu computador na rede local
+      # Exemplo: http://192.168.1.100:8001/api
+      - NEXT_PUBLIC_API_URL=http://SEU_IP_AQUI:8001/api
+

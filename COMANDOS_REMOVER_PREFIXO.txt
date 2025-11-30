@@ -1,0 +1,42 @@
+COMANDOS PARA REMOVER PREFIXO E CORRIGIR 404:
+
+# 1. Ir para o Laravel
+cd ~/public_html/api
+
+# 2. Fazer backup
+cp app/Providers/AppServiceProvider.php app/Providers/AppServiceProvider.php.backup
+
+# 3. Editar o arquivo
+nano app/Providers/AppServiceProvider.php
+
+# 4. Na linha 22-26, ALTERE:
+# DE:
+#   Route::prefix('api')->group(function () {
+#       if (file_exists(base_path('routes/api.php'))) {
+#           require base_path('routes/api.php');
+#       }
+#   });
+#
+# PARA:
+#   if (file_exists(base_path('routes/api.php'))) {
+#       require base_path('routes/api.php');
+#   }
+#
+# (Remova a linha Route::prefix e o group, e a chave de fechamento })
+
+# 5. Salvar: Ctrl+X, depois Y, depois Enter
+
+# 6. Limpar cache
+php artisan route:clear
+php artisan config:clear
+
+# 7. Recriar cache
+php artisan route:cache
+php artisan config:cache
+
+# 8. Verificar rotas
+php artisan route:list | grep "public/noticias"
+
+# 9. Testar no navegador:
+# https://clamatec.com/api/public/noticias
+

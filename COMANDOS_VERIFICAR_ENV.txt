@@ -1,0 +1,23 @@
+COMANDOS PARA EXECUTAR NO SERVIDOR:
+
+# 1. Ver arquivos ocultos (incluindo .env)
+ls -la | grep "\.env"
+
+# 2. Verificar se .env existe
+ls -la .env
+
+# 3. Se não existir, criar
+test -f .env || cp .env.example .env 2>/dev/null || touch .env
+
+# 4. Verificar novamente
+ls -la .env
+
+# 5. Ver conteúdo do .env
+cat .env
+
+# 6. Gerar APP_KEY
+php artisan key:generate
+
+# 7. Ver APP_KEY gerada
+grep APP_KEY .env
+
