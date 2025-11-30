@@ -31,8 +31,8 @@
 2. **Tipo:** Dockerfile
 3. **Repositório:** `https://github.com/sadrack12/sitehmx.git`
 4. **Branch:** `main`
-5. **Dockerfile Context:** `backend`
-6. **Dockerfile Path:** `Dockerfile.production`
+5. **Dockerfile Context:** `backend` ⚠️ (diretório onde está o Dockerfile)
+6. **Dockerfile Path:** `Dockerfile` ⚠️ (nome do arquivo, sem caminho)
 7. **Porta:** `8000`
 
 ### Variáveis de Ambiente:
