@@ -9,19 +9,20 @@ No Coolify:
 - **Tipo:** Dockerfile
 - **Repositório:** `https://github.com/sadrack12/sitehmx.git`
 - **Branch:** `main`
-- **Dockerfile Path:** `backend/Dockerfile`
+- **Dockerfile Context:** `backend`
+- **Dockerfile Path:** `Dockerfile.production` ⚠️ (relativo ao context, sem `backend/`)
 - **Porta:** `8000`
 
 **Variáveis de Ambiente:**
 ```env
 APP_ENV=production
 APP_DEBUG=false
-APP_URL=https://api.seudominio.com
+APP_URL=https://hospitalgeraldomoxico.com
 DB_HOST=mysql
 DB_DATABASE=sitehmx
 DB_USERNAME=sitehmx
 DB_PASSWORD=senha_segura
-FRONTEND_URL=https://seudominio.com
+FRONTEND_URL=https://hospitalgeraldomoxico.com
 DAILY_API_KEY=sua_chave
 ```
 
@@ -45,20 +46,28 @@ No Coolify:
 - **Tipo:** Dockerfile
 - **Repositório:** `https://github.com/sadrack12/sitehmx.git`
 - **Branch:** `main`
-- **Dockerfile Path:** `frontend/Dockerfile.production`
-- **Porta:** `80` (ou 3000)
+- **Dockerfile Context:** `frontend`
+- **Dockerfile Path:** `Dockerfile.production` ⚠️ (relativo ao context, sem `frontend/`)
+- **Porta:** `80`
 
 **Variáveis de Ambiente:**
 ```env
-NEXT_PUBLIC_API_URL=https://api.seudominio.com/api
+NEXT_PUBLIC_API_URL=https://hospitalgeraldomoxico.com/api
 ```
 
 ---
 
-### 4. Configurar Domínios
+### 4. Configurar Domínio
 
-- **Backend:** `api.seudominio.com`
-- **Frontend:** `seudominio.com`
+**⚠️ IMPORTANTE:** Configure apenas o Frontend com domínio público.
+
+- **Frontend:** `hospitalgeraldomoxico.com`
+  - Backend ficará acessível via proxy reverso em `/api`
+  
+**No Coolify:**
+- Frontend recebe o domínio: `hospitalgeraldomoxico.com`
+- Backend NÃO recebe domínio público (acesso apenas interno)
+- Configure proxy reverso no Coolify para rotear `/api` → backend
 
 O Coolify configura SSL automaticamente.
 
@@ -80,8 +89,8 @@ php artisan route:cache
 
 ## ✅ Verificar
 
-- Backend: `https://api.seudominio.com/api/noticias`
-- Frontend: `https://seudominio.com`
+- Frontend: `https://hospitalgeraldomoxico.com`
+- API: `https://hospitalgeraldomoxico.com/api/noticias`
 
 ---
 

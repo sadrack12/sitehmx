@@ -29,13 +29,13 @@
 **Tipo:** Dockerfile  
 **Dockerfile Path:** `backend/Dockerfile.production`  
 **Porta:** 8000  
-**Domínio:** `api.seudominio.com`
+**Domínio:** `api.hospitalgeraldomoxico.com`
 
 **Variáveis:**
 ```env
 APP_ENV=production
 DB_HOST=sitehmx-mysql
-NEXT_PUBLIC_API_URL=https://api.seudominio.com/api
+NEXT_PUBLIC_API_URL=https://api.hospitalgeraldomoxico.com/api
 ```
 
 ### 2. Frontend no Coolify
@@ -43,11 +43,11 @@ NEXT_PUBLIC_API_URL=https://api.seudominio.com/api
 **Tipo:** Dockerfile  
 **Dockerfile Path:** `frontend/Dockerfile.production`  
 **Porta:** 80  
-**Domínio:** `seudominio.com`
+**Domínio:** `hospitalgeraldomoxico.com`
 
 **Variáveis:**
 ```env
-NEXT_PUBLIC_API_URL=https://api.seudominio.com/api
+NEXT_PUBLIC_API_URL=https://api.hospitalgeraldomoxico.com/api
 ```
 
 ### 3. MySQL no Coolify

@@ -1,0 +1,14 @@
+# Dockerfile para servir arquivos estáticos da pasta out
+# Use este Dockerfile se você já tiver os arquivos buildados na pasta out
+FROM nginx:alpine
+
+# Copiar arquivos estáticos da pasta out
+COPY out/ /usr/share/nginx/html/
+
+# Configuração básica do Nginx (opcional - usar padrão do Nginx)
+# O Coolify gerencia SSL e proxy reverso automaticamente
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
+

@@ -18,14 +18,14 @@ services:
     environment:
       - APP_ENV=${APP_ENV:-production}
       - APP_DEBUG=${APP_DEBUG:-false}
-      - APP_URL=${APP_URL:-https://api.seudominio.com}
+      - APP_URL=${APP_URL:-https://api.hospitalgeraldomoxico.com}
       - DB_CONNECTION=mysql
       - DB_HOST=${DB_HOST:-mysql}
       - DB_PORT=${DB_PORT:-3306}
       - DB_DATABASE=${DB_DATABASE:-sitehmx}
       - DB_USERNAME=${DB_USERNAME:-sitehmx}
       - DB_PASSWORD=${DB_PASSWORD}
-      - FRONTEND_URL=${FRONTEND_URL:-https://seudominio.com}
+      - FRONTEND_URL=${FRONTEND_URL:-https://hospitalgeraldomoxico.com}
       - DAILY_API_KEY=${DAILY_API_KEY}
       - DAILY_DOMAIN=${DAILY_DOMAIN:-clamatec.daily.co}
     ports:
@@ -45,7 +45,7 @@ services:
     container_name: sitehmx_frontend
     restart: unless-stopped
     environment:
-      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-https://api.seudominio.com/api}
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-https://api.hospitalgeraldomoxico.com/api}
       - NODE_ENV=production
     ports:
       - "3000:3000"

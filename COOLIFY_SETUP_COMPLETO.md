@@ -13,12 +13,12 @@ Este guia cobre o deploy completo da aplicação no Coolify usando Docker.
 1. **Backend (Laravel API)**
    - Tipo: Dockerfile
    - Porta: 8000
-   - Domínio: `api.seudominio.com`
+   - Domínio: `api.hospitalgeraldomoxico.com`
 
 2. **Frontend (Next.js)**
    - Tipo: Dockerfile
    - Porta: 3000 (ou 80 com Nginx)
-   - Domínio: `seudominio.com`
+   - Domínio: `hospitalgeraldomoxico.com`
 
 3. **MySQL**
    - Tipo: MySQL Resource
@@ -58,7 +58,7 @@ git push origin main
 APP_ENV=production
 APP_DEBUG=false
 APP_KEY=base64:... (gerar após primeiro deploy)
-APP_URL=https://api.seudominio.com
+APP_URL=https://api.hospitalgeraldomoxico.com
 
 DB_CONNECTION=mysql
 DB_HOST=sitehmx-mysql (nome do recurso MySQL no Coolify)
@@ -67,7 +67,7 @@ DB_DATABASE=sitehmx
 DB_USERNAME=sitehmx
 DB_PASSWORD=senha_gerada_pelo_coolify
 
-FRONTEND_URL=https://seudominio.com
+FRONTEND_URL=https://hospitalgeraldomoxico.com
 
 DAILY_API_KEY=sua_chave_daily_co
 DAILY_DOMAIN=clamatec.daily.co
@@ -80,7 +80,7 @@ DAILY_DOMAIN=clamatec.daily.co
 
 ### 2.4 Domínio:
 
-- `api.seudominio.com`
+- `api.hospitalgeraldomoxico.com`
 - SSL automático via Let's Encrypt
 
 ---
@@ -118,7 +118,7 @@ No backend, usar o host interno do MySQL (ex: `sitehmx-mysql`)
 ### 4.2 Variáveis de Ambiente:
 
 ```env
-NEXT_PUBLIC_API_URL=https://api.seudominio.com/api
+NEXT_PUBLIC_API_URL=https://api.hospitalgeraldomoxico.com/api
 NODE_ENV=production
 ```
 
@@ -129,7 +129,7 @@ NODE_ENV=production
 
 ### 4.4 Domínio:
 
-- `seudominio.com`
+- `hospitalgeraldomoxico.com`
 - SSL automático
 
 ---
