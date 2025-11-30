@@ -31,9 +31,7 @@ RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html \
     && chmod -R 775 storage bootstrap/cache
 
-# Configurar Nginx
-COPY nginx.conf /etc/nginx/sites-available/default
-RUN ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
+# Nginx será configurado pelo Coolify ou pelo servidor
 
 # Script de inicialização
 COPY docker-entrypoint-production.sh /usr/local/bin/docker-entrypoint.sh
